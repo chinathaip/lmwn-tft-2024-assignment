@@ -28,19 +28,23 @@ func NewGinRouter(covidController *controller.CovidController) *GinRouter {
 }
 
 func (r *GinRouter) Start(port string) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*2)
-	defer cancel()
 	server := &http.Server{Addr: fmt.Sprintf(":%s", port), Handler: r}
 
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 	go func() {
 		<-sigCh
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second*2)
+		defer cancel()
+
 		log.Println("signal received, gracefully shutting down...")
+
 		if err := server.Shutdown(ctx); err != nil {
 			log.Fatalf("error while shutting down the server: %v", err)
 		}
 	}()
+
+	log.Printf("starting server on port %s", port)
 
 	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		log.Fatalf("could not start listener: %v", err)

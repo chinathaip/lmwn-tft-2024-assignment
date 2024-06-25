@@ -111,7 +111,7 @@ func TestSummarize(t *testing.T) {
 				expectedOld:   2,
 			},
 			{
-				name: "edge cases should be put in N/A",
+				name: "edge cases",
 				covidData: &dto.CovidData{
 					Data: []dto.CovidCase{
 						{

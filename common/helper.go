@@ -14,7 +14,6 @@ func FetchCovidCase(dataSource string) (*dto.CovidData, error) {
 	// ensure covid-cases.json is present
 	if _, err := os.Open("covid-cases.json"); err != nil {
 		if !os.IsNotExist(err) {
-			// TODO: create proper error type
 			return nil, NewFetchCovidCaseError(fmt.Sprintf("error while opening covid-cases.json: %v", err))
 		}
 

@@ -13,7 +13,7 @@ func NewCovidRepositoryImpl(covidData *dto.CovidData) *CovidRepositoryImpl {
 }
 
 func (cr *CovidRepositoryImpl) Summarize() dto.CovidSummary {
-	summarized := dto.CovidSummary{
+	summary := dto.CovidSummary{
 		Province: make(map[string]int),
 		AgeGroup: map[string]int{
 			"0-30":  0,
@@ -25,26 +25,26 @@ func (cr *CovidRepositoryImpl) Summarize() dto.CovidSummary {
 
 	for _, data := range cr.covidData.Data {
 		if data.Province != "" {
-			summarized.Province[data.Province]++
+			summary.Province[data.Province]++
 		}
 
 		if 0 <= data.Age && data.Age <= 30 {
-			summarized.AgeGroup["0-30"]++
+			summary.AgeGroup["0-30"]++
 			continue
 		}
 
 		if 31 <= data.Age && data.Age <= 60 {
-			summarized.AgeGroup["31-60"]++
+			summary.AgeGroup["31-60"]++
 			continue
 		}
 
-		if data.Age > 60 && data.Age < 120 {
-			summarized.AgeGroup["60+"]++
+		if 60 < data.Age && data.Age < 120 {
+			summary.AgeGroup["60+"]++
 			continue
 		}
 
-		summarized.AgeGroup["N/A"]++
+		summary.AgeGroup["N/A"]++
 	}
 
-	return summarized
+	return summary
 }
