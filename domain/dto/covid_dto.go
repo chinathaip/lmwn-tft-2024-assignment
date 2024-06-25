@@ -20,7 +20,7 @@ type CovidCase struct {
 	StatQuarantine int     `json:"StatQuarantine"`
 }
 
-type CovidResponse struct {
+type CovidSummary struct {
 	Province map[string]int `json:"Province"`
 	AgeGroup map[string]int `json:"AgeGroup"`
 }
