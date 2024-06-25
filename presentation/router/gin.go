@@ -10,6 +10,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/chinathaip/lmwn-tft-2024-assignment/domain/controller"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,9 +18,11 @@ type GinRouter struct {
 	*gin.Engine
 }
 
-func NewGinRouter() *GinRouter {
+func NewGinRouter(covidController *controller.CovidController) *GinRouter {
 	e := gin.New()
 	e.Use(gin.Logger(), gin.Recovery())
+
+	e.GET("/covid/summary", covidController.HandleSummary)
 
 	return &GinRouter{e}
 }
