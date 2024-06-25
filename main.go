@@ -15,6 +15,7 @@ const dataSource = "https://static.wongnai.com/devinterview/covid-cases.json"
 func main() {
 	var port string
 	flag.StringVar(&port, "port", "8080", "port for the http server")
+	flag.Parse()
 
 	covidDatasource, err := common.FetchCovidCase(dataSource)
 	if err != nil {
