@@ -36,6 +36,7 @@ func (r *GinRouter) Start(port string) {
 	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 	go func() {
 		<-sigCh
+		log.Println("signal received, gracefully shutting down...")
 		if err := server.Shutdown(ctx); err != nil {
 			log.Fatalf("error while shutting down the server: %v", err)
 		}
